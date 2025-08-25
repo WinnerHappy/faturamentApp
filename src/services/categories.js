@@ -1,22 +1,22 @@
 import { supabase } from '../lib/supabase'
 
-// Categorias padrão como fallback
+// Categorias padrão como fallback com UUIDs válidos
 const DEFAULT_CATEGORIES = [
   // Categorias de receita
-  { id: 'income-1', name: 'Salário', icon: '💰', type: 'income', is_default: true },
-  { id: 'income-2', name: 'Freelance', icon: '💻', type: 'income', is_default: true },
-  { id: 'income-3', name: 'Investimentos', icon: '📈', type: 'income', is_default: true },
-  { id: 'income-4', name: 'Outros', icon: '💵', type: 'income', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440001', name: 'Salário', icon: '💰', type: 'income', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440002', name: 'Freelance', icon: '💻', type: 'income', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440003', name: 'Investimentos', icon: '📈', type: 'income', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440004', name: 'Outros', icon: '💵', type: 'income', is_default: true },
   
   // Categorias de despesa
-  { id: 'expense-1', name: 'Alimentação', icon: '🍽️', type: 'expense', is_default: true },
-  { id: 'expense-2', name: 'Transporte', icon: '🚗', type: 'expense', is_default: true },
-  { id: 'expense-3', name: 'Moradia', icon: '🏠', type: 'expense', is_default: true },
-  { id: 'expense-4', name: 'Lazer', icon: '🎮', type: 'expense', is_default: true },
-  { id: 'expense-5', name: 'Saúde', icon: '🏥', type: 'expense', is_default: true },
-  { id: 'expense-6', name: 'Educação', icon: '📚', type: 'expense', is_default: true },
-  { id: 'expense-7', name: 'Compras', icon: '🛍️', type: 'expense', is_default: true },
-  { id: 'expense-8', name: 'Contas', icon: '📄', type: 'expense', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440005', name: 'Alimentação', icon: '🍽️', type: 'expense', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440006', name: 'Transporte', icon: '🚗', type: 'expense', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440007', name: 'Moradia', icon: '🏠', type: 'expense', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440008', name: 'Lazer', icon: '🎮', type: 'expense', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-446655440009', name: 'Saúde', icon: '🏥', type: 'expense', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-44665544000a', name: 'Educação', icon: '📚', type: 'expense', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-44665544000b', name: 'Compras', icon: '🛍️', type: 'expense', is_default: true },
+  { id: '550e8400-e29b-41d4-a716-44665544000c', name: 'Contas', icon: '📄', type: 'expense', is_default: true },
 ]
 
 export const categoriesService = {
