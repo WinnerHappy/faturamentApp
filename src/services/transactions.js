@@ -1,19 +1,28 @@
 import { supabase } from '../lib/supabase'
 
+// Verificar se Supabase está configurado
+const isSupabaseConfigured = () => {
+  const url = import.meta.env.VITE_SUPABASE_URL
+  const key = import.meta.env.VITE_SUPABASE_ANON_KEY
+  return url && key && url !== 'sua_url_do_supabase' && key !== 'sua_chave_anonima_do_supabase'
+}
+
+// Forçar modo mock para desenvolvimento
+const FORCE_MOCK_MODE = true
+
+// Armazenamento local para transações mock
+let mockTransactions = []
+
 export const transactionsService = {
   // Criar nova transação
   async createTransaction(transaction) {
-    try {
-      const { data, error } = await supabase
-        .from('transactions')
-        .insert([transaction])
-        .select('*, categories(*)')
-        .single()
+    if (FORCE_MOCK_MODE || !isSupabaseConfigured()) {
+      console.log('Usando transações mock para desenvolvimento')
       
-      return { data, error }
-    } catch (err) {
-      console.log('Erro ao criar transação (Supabase não configurado):', err)
-      // Em ambiente de desenvolvimento sem Supabase, simular sucesso
+      // Simular delay de rede
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // Criar transação mock
       const mockTransaction = {
         id: 'mock-' + Date.now(),
         ...transaction,
@@ -24,6 +33,37 @@ export const transactionsService = {
           icon: '📊'
         }
       }
+      
+      // Adicionar à lista mock
+      mockTransactions.push(mockTransaction)
+      
+      return { data: mockTransaction, error: null }
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('transactions')
+        .insert([transaction])
+        .select('*, categories(*)')
+        .single()
+      
+      return { data, error }
+    } catch (err) {
+      console.log('Erro ao criar transação (Supabase não configurado), usando mock:', err)
+      
+      // Fallback para mock
+      const mockTransaction = {
+        id: 'mock-' + Date.now(),
+        ...transaction,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        categories: {
+          name: 'Categoria Mock',
+          icon: '📊'
+        }
+      }
+      
+      mockTransactions.push(mockTransaction)
       return { data: mockTransaction, error: null }
     }
   },

@@ -1,5 +1,8 @@
 import { supabase } from '../lib/supabase'
 
+// Forçar modo mock para desenvolvimento
+const FORCE_MOCK_MODE = true
+
 // Categorias padrão como fallback com UUIDs válidos
 const DEFAULT_CATEGORIES = [
   // Categorias de receita
@@ -22,6 +25,17 @@ const DEFAULT_CATEGORIES = [
 export const categoriesService = {
   // Obter todas as categorias (padrão + do usuário)
   async getCategories(type = null) {
+    if (FORCE_MOCK_MODE) {
+      console.log('Usando categorias padrão como fallback')
+      let fallbackCategories = DEFAULT_CATEGORIES
+      
+      if (type) {
+        fallbackCategories = DEFAULT_CATEGORIES.filter(cat => cat.type === type)
+      }
+      
+      return { data: fallbackCategories, error: null }
+    }
+
     try {
       let query = supabase
         .from('categories')
